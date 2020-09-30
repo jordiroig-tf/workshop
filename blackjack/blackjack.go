@@ -6,6 +6,8 @@ import (
 	"github.com/jordiroig-tf/workshop/deck"
 )
 
+const dealer = "Dealer"
+
 var values = map[string]int{
 	deck.Ranks[0]:  1, //A
 	deck.Ranks[1]:  2,
@@ -23,13 +25,16 @@ var values = map[string]int{
 }
 
 type BlackJack struct {
-	players []Player
-	deck    deck.Deck
+	players     []Player
+	deck        deck.Deck
+	playerDecks map[Player]deck.Deck
 }
 
 type Player string
 
 func New(players []Player) (BlackJack, error) {
+	dealer := Player(dealer)
+	players = append(players, dealer)
 
 	newDeck, err := deck.New()
 
@@ -39,5 +44,10 @@ func New(players []Player) (BlackJack, error) {
 
 	newDeck.Shuffle()
 
-	return BlackJack{players: players, deck: newDeck}, nil
+	playerDecks := map[Player]deck.Deck{}
+	for _, player := range players {
+		playerDecks[player] = deck.Deck{}
+	}
+
+	return BlackJack{players: players, deck: newDeck, playerDecks: playerDecks}, nil
 }
