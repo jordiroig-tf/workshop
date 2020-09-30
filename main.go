@@ -3,17 +3,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/jordiroig-tf/workshop/cypher"
+	"github.com/jordiroig-tf/workshop/blackjack"
 )
 
 func main() {
-	message := "HO KC EJHSFOL, IGH TXUCPZ FWX XB SLRA DQML"
+	player1 := blackjack.Player("Jordi")
+	players := []blackjack.Player{player1}
 
-	decryptedMessage := cypher.Decrypt(message)
+	game, err := blackjack.New(players)
 
-	fmt.Println(decryptedMessage)
+	fmt.Println(game, err)
 
-	encryptedMessage := cypher.Encrypt(decryptedMessage)
-
-	fmt.Println(encryptedMessage)
+	//message := "HO KC EJHSFOL, IGH TXUCPZ FWX XB SLRA DQML"
+	//
+	//decryptedMessage := cypher.Decrypt(message)
+	//
+	//fmt.Println(decryptedMessage)
+	//
+	//encryptedMessage := cypher.Encrypt(decryptedMessage)
+	//
+	//fmt.Println(encryptedMessage)
 }

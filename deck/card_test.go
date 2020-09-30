@@ -10,23 +10,23 @@ import (
 )
 
 func TestNewCard(t *testing.T) {
-	value := deck.Min
+	rank := deck.Ranks[0]
 	suit := deck.Suits[0]
 
-	card, err := deck.NewCard(value, suit)
+	card, err := deck.NewCard(rank, suit)
 
 	assert.IsType(t, deck.Card{}, card)
 	assert.Nil(t, err)
 
-	assert.Equal(t, value, card.GetValue())
+	assert.Equal(t, rank, card.GetRank())
 	assert.Equal(t, suit, card.GetSuit())
 }
 
 func TestNewCardWrongSuit(t *testing.T) {
-	value := deck.Min
+	rank := deck.Ranks[0]
 	suit := "wrong"
 
-	card, err := deck.NewCard(value, suit)
+	card, err := deck.NewCard(rank, suit)
 
 	assert.Error(t, err)
 	assert.Empty(t, card)
@@ -34,12 +34,12 @@ func TestNewCardWrongSuit(t *testing.T) {
 }
 
 func TestNewCardWrongValue(t *testing.T) {
-	value := -1
+	rank := "wrong"
 	suit := deck.Suits[0]
 
-	card, err := deck.NewCard(value, suit)
+	card, err := deck.NewCard(rank, suit)
 
 	assert.Error(t, err)
 	assert.Empty(t, card)
-	assert.EqualError(t, err, fmt.Sprintf("Card value is not valid: %d", value))
+	assert.EqualError(t, err, fmt.Sprintf("Card rank is not valid: %s", rank))
 }

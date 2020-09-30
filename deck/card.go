@@ -5,34 +5,42 @@ import (
 	"fmt"
 )
 
-const Min = 1
-const Max = 13
-
 var Suits = [4]string{"spades", "diamonds", "clubs", "hearts"}
+var Ranks = [13]string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}
 
 type Card struct {
-	value int
+	rank string
 	suit string
 }
 
-func (c Card) GetValue() int {
-	return c.value
+func (c Card) GetRank() string {
+	return c.rank
 }
 
 func (c Card) GetSuit() string {
 	return c.suit
 }
 
-func NewCard(value int, suit string) (Card, error) {
-	if value < Min || value > Max {
-		return Card{}, errors.New(fmt.Sprintf("Card value is not valid: %d", value))
+func NewCard(rank string, suit string) (Card, error) {
+	if !isValidRank(rank) {
+		return Card{}, errors.New(fmt.Sprintf("Card rank is not valid: %s", rank))
 	}
 
 	if !isValidSuit(suit) {
 		return Card{}, errors.New(fmt.Sprintf("Card suit is not valid: %s", suit))
 	}
 
-	return Card{value: value, suit: suit}, nil
+	return Card{rank: rank, suit: suit}, nil
+}
+
+func isValidRank(rank string) bool {
+	for _, item := range Ranks {
+		if item == rank {
+			return true
+		}
+	}
+
+	return false
 }
 
 func isValidSuit(suit string) bool {
